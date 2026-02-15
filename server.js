@@ -5,12 +5,8 @@ const app = express();
 //port for localhost
 const PORT = 3000;
 
-function handleRoot(req, res){
-    res.send("Hello World");
-}
-
-//define GET route
-app.get('/', handleRoot);
+//static serving to connect to frontend
+app.use(express.static('public'));
 
 function startServer(){
     console.log("Server running on http://localhost:" + PORT);
@@ -59,3 +55,20 @@ function putTasks(req, res){
     res.json(task);
 }
 app.put('/tasks/:id', putTasks);
+
+//delete /tasks:id implementation
+function deleteTask(req, res){
+    let currId = Number(req.params.id);
+
+    //check if task exists
+    let taskExists = tasks.find(t => t.id === currId);
+    if(!taskExists){
+        return res.status(404).json({message: "Task not found"});
+    }
+    //Remove the task (copying the array for all elements except that id)
+    tasks = tasks.filter(t => t.id !== currId);
+
+    res.json({message: "Task deleted successfullyt"});
+}
+
+app.delete('/tasks/:id', deleteTask);
