@@ -22,7 +22,15 @@ async function loadTasks(){
 
         //event listeners
         deleteButton.addEventListener("click", () => handleDelete(task.id));
-        checkbox.addEventListener("change", () => {handleComplete(task.id, target.checked)});
+        checkbox.addEventListener("change", (e) => {handleComplete(task.id, e.target.checked)});
+
+        //if completed, add the class
+        if(task.completed){
+            li.classList.add('completed');
+        }
+        else{
+            li.classList.remove('completed');
+        }
 
         //adding everything to the list element
         li.appendChild(checkbox);
