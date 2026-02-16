@@ -51,7 +51,7 @@ function putTasks(req, res){
     if(!task){
         return res.status(404).json({ message: "Task not found" });
     }
-    task.completed = true;
+    task.completed = !task.completed;
     res.json(task);
 }
 app.put('/tasks/:id', putTasks);
